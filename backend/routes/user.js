@@ -13,7 +13,12 @@ const signupSchema = zod.object({
     password: Zod.string()
 })
 
-router.post("/signup",(req,res)=>{
+const signinSchema = zod.object({
+    username: zod.string().email(),
+    password: zod.string()
+})
+
+router.post("/signup",async (req,res)=>{
     const body = req.body;
     const {success} = signupSchema.safeParse(body);
     
@@ -23,7 +28,7 @@ router.post("/signup",(req,res)=>{
         })
     }
 
-    const user = User.findOne({
+    const user = await User.findOne({
         username: body.username
     })
 
@@ -33,7 +38,7 @@ router.post("/signup",(req,res)=>{
         })
     }
 
-    const new_user = User.create(body);
+    const new_user = await User.create(body);
 
     const token = jwt.sign({
         userId: new_user._id
@@ -44,5 +49,33 @@ router.post("/signup",(req,res)=>{
         token: token
     })
 });
+
+router.post('/signin',async (req,res)=>{
+    const body = req.body;
+
+    const {success} = signinSchema.safeParse(body);
+
+    if(!success){
+        return res.status(411).json({
+            message: "Error while logging in"
+        })
+    }
+
+    const my_user = await User.findOne({
+        username: body.username,
+        password: body.password
+    })
+
+    if(!my_user._id){
+        return res.status(411).json({
+            message: "Invalid username/password"
+        })
+    }
+
+    const token = jwt.sign({userId: body.username }, JWT_SECRET);
+    res.status(200).json({
+        token: token
+    })
+})
 
 module.exports = router;
