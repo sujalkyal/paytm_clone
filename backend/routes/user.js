@@ -39,7 +39,7 @@ router.post("/signup",async (req,res)=>{
         username: body.username
     })
 
-    if(user._id){
+    if(user){
         return res.status(411).json({
             message: "Invalid Email / Email already exists"
         })
@@ -83,7 +83,7 @@ router.post('/signin',async (req,res)=>{
         password: body.password
     })
 
-    if(!my_user._id){
+    if(!my_user){
         return res.status(411).json({
             message: "Invalid username/password"
         })
