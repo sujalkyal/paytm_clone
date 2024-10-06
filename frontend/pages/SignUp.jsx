@@ -7,7 +7,7 @@ import { SubHeading } from "../components/SubHeading"
 import axios from "axios";
 import { useNavigate } from "react-router-dom"
 
-export const Signup = () => {
+export const SignUp = () => {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [username, setUsername] = useState("");
@@ -21,29 +21,29 @@ export const Signup = () => {
         <SubHeading label={"Enter your infromation to create an account"} />
         <InputBox onChange={e => {
           setFirstName(e.target.value);
-        }} placeholder="John" label={"First Name"} />
+        }} placeholder="Sujal" label={"First Name"} />
         <InputBox onChange={(e) => {
           setLastName(e.target.value);
-        }} placeholder="Doe" label={"Last Name"} />
+        }} placeholder="Kyal" label={"Last Name"} />
         <InputBox onChange={e => {
           setUsername(e.target.value);
-        }} placeholder="harkirat@gmail.com" label={"Email"} />
+        }} placeholder="abcdef@gmail.com" label={"Email"} />
         <InputBox onChange={(e) => {
           setPassword(e.target.value)
         }} placeholder="123456" label={"Password"} />
         <div className="pt-4">
           <Button onClick={async () => {
-            const response = await axios.post("http://localhost:3000/api/v1/user/signup", {
-              username,
+            const response = await axios.post("http://localhost:3001/api/v1/user/signup", {
               firstName,
               lastName,
+              username,
               password
             });
             localStorage.setItem("token", response.data.token)
             navigate("/dashboard")
           }} label={"Sign up"} />
         </div>
-        <BottomWarning label={"Already have an account?"} buttonText={"Sign in"} to={"/signin"} />
+        <BottomWarning label={"Already have an account?"} buttonText={"Sign In"} to={"/signin"} />
       </div>
     </div>
   </div>

@@ -1,7 +1,7 @@
 const express = require("express");
 const zod = require('zod');
-import { JWT_SECRET } from "../config";
-import {User} from "../db";
+const { JWT_SECRET } = require("../config");
+const {User} = require("../db");
 const jwt = require('jsonwebtoken')
 const { authMiddleware } = require("./middleware");
 
@@ -11,7 +11,7 @@ const signupSchema = zod.object({
     username: zod.string().email(),
     firstName: zod.string(),
     lastName: zod.string(),
-    password: Zod.string()
+    password: zod.string()
 })
 
 const signinSchema = zod.object({
